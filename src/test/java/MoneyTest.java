@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import javax.money.CurrencyUnit;
 import javax.money.Monetary;
+import javax.money.MonetaryAmount;
 import javax.money.convert.CurrencyConversion;
 import javax.money.convert.ExchangeRateProvider;
 import javax.money.convert.MonetaryConversions;
@@ -25,6 +26,27 @@ public class MoneyTest
         assertThat(added).isEqualTo(Money.of(400,"USD"));
 
     }
+
+    @Test
+    void substractOperationSupportedToo(){
+        Money money1 = Money.of(300,"EUR");
+        Money money2 = Money.of(150,"EUR");
+        Money expected = Money.of(150,"EUR");
+        Money computed = money1.subtract(money2);
+        assertThat(computed).isEqualTo(expected);
+    }
+
+    @Test
+    void comparingAmounts(){
+        MonetaryAmount money1 = Money.of(300,"EUR");
+        MonetaryAmount money2 = Money.of(300,"USD");
+        CurrencyConversion conversionEUR = MonetaryConversions.getConversion("EUR");
+
+        assertThat(money1.compareTo(        money2.with(conversionEUR))).isGreaterThan(0);
+
+    }
+
+
 
 
     @Test
